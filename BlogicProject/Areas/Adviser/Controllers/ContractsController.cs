@@ -1,4 +1,6 @@
-﻿using BlogicProject.Models.Database;
+﻿using BlogicProject.Models.ApplicationServices.Abstraction;
+using BlogicProject.Models.Database;
+using BlogicProject.Models.Entity;
 using BlogicProject.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +13,31 @@ namespace BlogicProject.Areas.Adviser.Controllers
     [Authorize(Roles = nameof(Roles.Adviser))]
     public class ContractsController : Controller
     {
+        ISecurityApplicationService iSecure;
         private readonly AppDbContext _context;
 
-        public ContractsController(AppDbContext context)
+        public ContractsController(ISecurityApplicationService iSecure, AppDbContext context)
         {
+            this.iSecure = iSecure;
             _context = context;
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ManagingContracts()
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return View(await _context.Contracts.Where(c => c.ManagerID == userId).ToListAsync());
+            User currentUser = await iSecure.GetCurrentUser(User);
+            if (currentUser != null)
+            {
+                IList<Contract> managerContracts = await this._context.Contracts
+                                                                    .Where(co => co.ManagerID == currentUser.Id)
+                                                                    .Include(c => c.Manager)
+                                                                    .Include(c => c.Client)
+                                                                    .Include(c => c.ParticipatesIn)
+                                                                    .ThenInclude(pi => pi.User)
+                                                                    .ToListAsync();
+                return View(managerContracts);
+            }
+            return NotFound();
         }
 
         // GET: Admin/Users/Details/5
@@ -33,14 +48,14 @@ namespace BlogicProject.Areas.Adviser.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Contracts
+            var contract = await _context.Contracts
                 .FirstOrDefaultAsync(m => m.RegistrationNumber == id);
-            if (user == null)
+            if (contract == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(contract);
         }
 
         // GET: Admin/Users/Create

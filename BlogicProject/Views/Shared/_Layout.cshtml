@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Blogic Project</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"/>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
      @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -19,51 +20,51 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>*@
 
                          @{
                             @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Adviser.ToString())))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Adviser" asp-controller="Contracts" asp-action="Index">Contracts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Products" asp-action="Select">Products</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Orders" asp-action="Index">Orders</a>
-                                </li>
-                                @if (User.IsInRole(Roles.Admin.ToString()))
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="OrderItems" asp-action="Index">OrderItems</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Template" asp-action="EditTemplate">Forgot Password Template</a>
-                                    </li>
-                                }
                             }
                             @if (User.Identity.IsAuthenticated == true && User.IsInRole(Roles.Admin.ToString()))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a>
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Clients" asp-action="Index">All Clients</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Contracts" asp-action="Index">All Contracts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="Index">All Users</a>
+                                </li>
+                            }
+                            @if (User.Identity.IsAuthenticated == true && User.IsInRole(Roles.Adviser.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="Adviser" asp-controller="Clients" asp-action="Index">My Clients</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="Adviser" asp-controller="Contracts" asp-action="ManagingContracts">Managed Contracts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="Adviser" asp-controller="Contracts" asp-action="ParticipatingContracts">Participating Contracts</a>
                                 </li>
                             }
                             @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Client.ToString())))
-                            {
+                            {                                
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">My Orders</a>
+                                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">My Contracts</a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
                                         <li class="nav-item">
-                                            <a class="nav-link text-light" asp-area="Customer" asp-controller="CustomerOrders" asp-action="Index">My Orders</a>
+                                            <a class="nav-link text-light" asp-area="Client" asp-controller="ClientContracts" asp-action="Index">My Contracts</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link text-light" asp-area="Customer" asp-controller="CustomerOrderNotCart" asp-action="ApproveOrderInSession">Approve Current Order</a>
+                                            <a class="nav-link text-light" asp-area="Client" asp-controller="ClientAdvisers" asp-action="Index">My Advisers</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -82,7 +83,7 @@
                         {
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Logged as @User.FindFirstValue(ClaimTypes.Name)</a>
+                                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Logged as @User.FindFirstValue(ClaimTypes.Name)</a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
                                         <li class="nav-item"><a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                                     </ul>
@@ -102,12 +103,16 @@
 
     <footer class="border-top noparallax-footer footer text-muted bg-dark border-bottom box-shadow">
         <div class="container">
-            &copy; 2022 - BlogicProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Blogic Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"> </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+@*  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)*@
 </body>
 </html>

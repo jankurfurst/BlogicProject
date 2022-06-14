@@ -20,9 +20,6 @@ namespace BlogicProject.Models.Entity
         [Required]
         public DateTime ExpiredDate { get; set; }
 
-        [Required]
-        public double TotalPrice { get; set; }
-
         [ForeignKey(nameof(User))]
         public int ManagerID { get; set; }
         public User Manager { get; set; }

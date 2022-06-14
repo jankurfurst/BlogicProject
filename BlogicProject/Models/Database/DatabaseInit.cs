@@ -28,15 +28,29 @@ namespace BlogicProject.Models.Database
 
             Contract c1 = new Contract()
             {
-                RegistrationNumber = 102,
+                ConclusionDate = DateTime.Now,
+                EfectiveDate = DateTime.Now,
+                ExpiredDate = DateTime.Now.AddYears(5),
+                ManagerID = 2,
+                ClientID = 3,
             };
 
-
             contracts.Add(c1);
-
-
-
             return contracts;
+        }
+
+        public List<Participating> GenerateParticipattings()
+        {
+            List<Participating> participatings = new List<Participating>();
+
+            Participating p = new Participating()
+            {
+                UserID = 1,
+                ContractID = 1,
+            };
+
+            participatings.Add(p);
+            return participatings;
         }
 
 
@@ -116,6 +130,46 @@ namespace BlogicProject.Models.Database
                     foreach (var role in roles)
                     {
                         if (role != Roles.Admin.ToString())
+                            await userManager.AddToRoleAsync(user, role);
+                    }
+                }
+                else if (result != null && result.Errors != null && result.Errors.Count() > 0)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        Debug.WriteLine($"Error during Role creation for Manager: {error.Code}, {error.Description}");
+                    }
+                }
+            }
+
+        }
+
+        public async Task EnsureClientCreated(UserManager<User> userManager)
+        {
+            User user = new User
+            {
+                UserName = "client",
+                Email = "klient@klient.cz",
+                EmailConfirmed = true,
+                PI_Number = "9912126638",
+                FirstName = "Franta",
+                LastName = "Klient"
+            };
+            string password = "abc";
+
+            User managerInDatabase = await userManager.FindByNameAsync(user.UserName);
+
+            if (managerInDatabase == null)
+            {
+
+                IdentityResult result = await userManager.CreateAsync(user, password);
+
+                if (result == IdentityResult.Success)
+                {
+                    string[] roles = Enum.GetNames(typeof(Roles));
+                    foreach (var role in roles)
+                    {
+                        if (role == Roles.Client.ToString())
                             await userManager.AddToRoleAsync(user, role);
                     }
                 }

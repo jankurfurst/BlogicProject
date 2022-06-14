@@ -9,6 +9,10 @@
 }
 <div id="logreg-forms">
     <form asp-action="Register" method="post" class="form-signup">
+        <br />
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign up</h1>      
+        <hr>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="FirstName" type="text" id="first-name" class="form-control" placeholder="First name" required autofocus="">

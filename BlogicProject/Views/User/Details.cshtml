@@ -22,6 +22,7 @@
                 {
                     <th class="col-sm-2">Personal Id. number</th>
                     <th class="col-sm-1">Age</th>
+                    <th class="col-sm-1">Roles</th>
                 }
             </tr>
             <tr>
@@ -32,6 +33,7 @@
                 {
                     <td class="col-sm-2">@Model.User.PI_Number</td>
                     <td class="col-sm-1">@Model.User.Age</td>
+                    <td class="col-sm-1">@Model.UserRoles.ToList()</td>
                 }
             </tr>
         </table>
@@ -39,24 +41,46 @@
         @if (Model.UserRoles.Contains(Roles.Adviser.ToString()))
         {
             <details>
-                <summary>Contracts</summary>
+                <summary>Advisers Contracts</summary>
                 <div id="contracts_of_@Model.User.Id">
-                    <table style="width:41.667%" class="table table-responsive table-bordered">
+                    <table style="width:40%" class="table table-responsive table-bordered">
                         <tr>
-                            <th class="col-sm-3">Colaboraion type</th>
+                            <th class="col-sm-2">Collaboration type</th>
                             <th class="col-sm-1">Count</th>
                         </tr>
                         <tr>
-                            <td class="col-sm-3">Manages</td>
+                            <td class="col-sm-2">Manages</td>
                             <td class="col-sm-1">@Model.ContractsManager.Count()</td>
                         </tr>
                         <tr>
-                            <td class="col-sm-3">Participates in</td>
+                            <td class="col-sm-2">Participates in</td>
                             <td class="col-sm-1">@Model.Participatings.Count()</td>
                         </tr>
                     </table>
                 </div>
             </details>
+        }
+        <br />
+        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+        {
+            @if (Model.UserRoles.Contains(Roles.Client.ToString()))
+            {
+                <details>
+                    <summary>Clients Contracts</summary>
+                    <div id="contracts_of_@Model.User.Id">
+                        <table style="width:41.667%" class="table table-responsive table-bordered">
+                            <tr>
+                                <th class="col-sm-2">Contracts</th>
+                                <th class="col-sm-1">Count</th>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-2">Concluded</td>
+                                <td class="col-sm-1">@Model.ContractsClient.Count()</td>
+                            </tr>
+                        </table>
+                    </div>
+                </details>
+            }
         }
         <br />
         <br />

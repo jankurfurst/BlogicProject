@@ -22,7 +22,6 @@ namespace BlogicProject.Areas.Adviser.Controllers
             _context = context;
         }
 
-        // GET: Admin/Users
         public async Task<IActionResult> ManagingContracts()
         {
             User currentUser = await iSecure.GetCurrentUser(User);
@@ -32,6 +31,7 @@ namespace BlogicProject.Areas.Adviser.Controllers
                                                                     .Where(co => co.ManagerID == currentUser.Id)
                                                                     .Include(c => c.Manager)
                                                                     .Include(c => c.Client)
+                                                                    .Include(c => c.Institution)
                                                                     .Include(c => c.ParticipatesIn)
                                                                     .ThenInclude(pi => pi.User)
                                                                     .ToListAsync();
@@ -39,8 +39,31 @@ namespace BlogicProject.Areas.Adviser.Controllers
             }
             return NotFound();
         }
+        
+        public async Task<IActionResult> ParticipatingContracts()
+        {
+            User currentUser = await iSecure.GetCurrentUser(User);
+            if (currentUser != null)
+            {
+                var participatings = await this._context.Participatings
+                                                                    .Where(p => p.UserID == currentUser.Id)
+                                                                    .Include(p => p.Contract)
+                                                                    .ThenInclude(c => c.Institution)
+                                                                    .Include(p => p.Contract)
+                                                                    .ThenInclude(c => c.Client)
+                                                                    .Include(p => p.Contract)
+                                                                    .ThenInclude(c => c.Manager)
+                                                                    .ToListAsync();
+                List<Contract> parContracts = new();
+                foreach(var item in participatings)
+                {
+                    parContracts.Add(item.Contract);
+                }
+                return View(parContracts);
+            }
+            return NotFound();
+        }
 
-        // GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,26 +81,22 @@ namespace BlogicProject.Areas.Adviser.Controllers
             return View(contract);
         }
 
-        // GET: Admin/Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Create([Bind("RegistrationNumber,InstitutionId,ConclusionDate,EfectiveDate,ExpiredDate,ManagerID,ClientID")] Contract contract)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(contract);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(contract);
         }
 
         // GET: Admin/Users/Edit/5
@@ -101,23 +120,22 @@ namespace BlogicProject.Areas.Adviser.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("RegistrationNumber,InstitutionId,ConclusionDate,EfectiveDate,ExpiredDate,ManagerID,ClientID")] Contract contract)
         {
-            if (id != user.Id)
+            if (id != contract.RegistrationNumber)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(contract);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!ContractExist(contract.RegistrationNumber))
                     {
                         return NotFound();
                     }
@@ -128,10 +146,9 @@ namespace BlogicProject.Areas.Adviser.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(contract);
         }
 
-        // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,30 +156,29 @@ namespace BlogicProject.Areas.Adviser.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var contract = await _context.Contracts
+                .FirstOrDefaultAsync(m => m.RegistrationNumber == id);
+            if (contract == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(contract);
         }
 
-        // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var contract = await _context.Contracts.FindAsync(id);
+            _context.Contracts.Remove(contract);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool ContractExist(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Contracts.Any(e => e.RegistrationNumber == id);
         }
     }
 }

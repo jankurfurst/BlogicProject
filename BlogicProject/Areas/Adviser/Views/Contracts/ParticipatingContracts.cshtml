@@ -1,13 +1,13 @@
 ﻿@model IList<Contract>;
 
 @{
-    ViewData["Title"] = "My Contracts";
+    ViewData["Title"] = "Participated Contracts";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
 <br />
 @{
-    ViewBag.User = "Client";
+    ViewBag.User = "Participate";
 }
 <partial name="ShowContract" model="Model">

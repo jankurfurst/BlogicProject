@@ -30,7 +30,9 @@ namespace BlogicProject.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            var user = await _context.Users.Include(c => c.ParticipatesIn)
+                                           .ThenInclude(pi => pi.Contract)
+                                           .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -47,7 +49,7 @@ namespace BlogicProject.Controllers
                 UserRoles = roles,
                 ContractsClient = contractsClient,
                 ContractsManager = contractsManager,
-                Participatings = participates
+                Participatings = user.ParticipatesIn
             };
 
             return View(viewModel);

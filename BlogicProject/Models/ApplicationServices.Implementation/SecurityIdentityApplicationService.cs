@@ -60,6 +60,7 @@ namespace BlogicProject.Models.ApplicationServices.Implementation
                 FirstName = vm.FirstName,
                 LastName = vm.LastName,
                 PI_Number = vm.PI_Number,
+                Age = vm.Age,
                 Email = vm.Email,
                 PhoneNumber = vm.Phone
             };

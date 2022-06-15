@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogicProject.Models.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace BlogicProject.Models.ViewModels
         }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(11)]
         [RegularExpression(@"\d{2}((0|2)[1-9]|(1|3)[0-2]|(5|7)[1-9]|(6|8)[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/?\d{3,4}", ErrorMessage = "Rodné číslo je ve špatném formátu.")]
         public string PI_Number { get; set; }
 
@@ -67,5 +68,8 @@ namespace BlogicProject.Models.ViewModels
         [Required]
         [Compare(nameof(Password), ErrorMessage = "Passwords don't match!")]
         public string RepeatedPassword { get; set; }
+
+        [Required]
+        public Roles Role { get; set; }
     }
 }

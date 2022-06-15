@@ -33,6 +33,7 @@ namespace BlogicProject.Areas.Client.Controllers
                                                                             .Where(co => co.ClientID == currentUser.Id)
                                                                             .Include(c => c.Client)
                                                                             .Include(c => c.Manager)
+                                                                            .Include(c => c.Institution)
                                                                             .Include(c => c.ParticipatesIn)
                                                                             .ThenInclude(pi => pi.User)
                                                                             .ToListAsync();

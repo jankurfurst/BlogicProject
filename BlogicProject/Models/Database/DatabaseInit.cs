@@ -9,17 +9,33 @@ namespace BlogicProject.Models.Database
     {
         public void Initialization(AppDbContext appDbContext)
         {
+
             appDbContext.Database.EnsureCreated();
 
-            //if (appDbContext.Contracts.Count() == 0)
-            //{
-            //    IList<Contract> cItems = GenerateContracts();
-            //    foreach (var ci in cItems)
-            //    {
-            //        appDbContext.Contracts.Add(ci);
-            //    }
-            //    appDbContext.SaveChanges();
-            //}
+            if (!appDbContext.Contracts.Any() && !appDbContext.Institutions.Any() && !appDbContext.Participatings.Any())
+            {
+                IList<Institution> iItems = GenerateInstitutions();
+                foreach (var i in iItems)
+                {
+                    appDbContext.Institutions.Add(i);
+                }
+                appDbContext.SaveChanges();
+
+                IList<Contract> cItems = GenerateContracts();
+                foreach (var c in cItems)
+                {
+                    appDbContext.Contracts.Add(c);
+                }
+                appDbContext.SaveChanges();
+
+                IList<Participating> pItems = GenerateParticipattings();
+                foreach (var p in pItems)
+                {
+                    appDbContext.Participatings.Add(p);
+                }
+
+                appDbContext.SaveChanges();
+            }
         }
 
         public List<Contract> GenerateContracts()
@@ -33,6 +49,7 @@ namespace BlogicProject.Models.Database
                 ExpiredDate = DateTime.Now.AddYears(5),
                 ManagerID = 2,
                 ClientID = 3,
+                InstitutionId = 1
             };
 
             contracts.Add(c1);
@@ -51,6 +68,19 @@ namespace BlogicProject.Models.Database
 
             participatings.Add(p);
             return participatings;
+        }
+
+        public List<Institution> GenerateInstitutions()
+        {
+            List<Institution> institutions = new List<Institution>();
+
+            Institution i = new()
+            {
+                Name = "Axa",
+            };
+
+            institutions.Add(i);
+            return institutions;
         }
 
 
@@ -74,7 +104,8 @@ namespace BlogicProject.Models.Database
                 EmailConfirmed = true,
                 PI_Number = "9912126633",
                 FirstName = "Tom",
-                LastName = "Správce"
+                LastName = "Správce",
+                PhoneNumber = "123456789"
             };
             string password = "abc";
 
@@ -112,8 +143,9 @@ namespace BlogicProject.Models.Database
                 Email = "manager@manager.cz",
                 EmailConfirmed = true,
                 PI_Number = "9912126637",
-                FirstName = "Tom",
-                LastName = "Manažer"
+                FirstName = "Alex",
+                LastName = "Manažer",
+                PhoneNumber = "987654321"
             };
             string password = "abc";
 
@@ -137,7 +169,7 @@ namespace BlogicProject.Models.Database
                 {
                     foreach (var error in result.Errors)
                     {
-                        Debug.WriteLine($"Error during Role creation for Manager: {error.Code}, {error.Description}");
+                        Debug.WriteLine($"Error during Role creation for Adviser: {error.Code}, {error.Description}");
                     }
                 }
             }
@@ -153,7 +185,8 @@ namespace BlogicProject.Models.Database
                 EmailConfirmed = true,
                 PI_Number = "9912126638",
                 FirstName = "Franta",
-                LastName = "Klient"
+                LastName = "Klient",
+                PhoneNumber = "456123789"
             };
             string password = "abc";
 
@@ -177,7 +210,7 @@ namespace BlogicProject.Models.Database
                 {
                     foreach (var error in result.Errors)
                     {
-                        Debug.WriteLine($"Error during Role creation for Manager: {error.Code}, {error.Description}");
+                        Debug.WriteLine($"Error during Role creation for Client: {error.Code}, {error.Description}");
                     }
                 }
             }

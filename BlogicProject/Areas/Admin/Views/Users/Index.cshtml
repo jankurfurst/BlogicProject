@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-area="Security" asp-controller="Account" asp-action="Register">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -17,6 +17,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PI_Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -71,6 +77,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PI_Number)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)

@@ -11,7 +11,7 @@ namespace BlogicProject.Models.Identity
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [StringLength(10)]
+        [StringLength(11)]
         public string PI_Number { get; set; } // personal identification number (rodné číslo)
 
         public int Age { get; set; }

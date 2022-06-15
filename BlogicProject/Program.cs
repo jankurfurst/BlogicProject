@@ -70,7 +70,10 @@ using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         DatabaseInit dbInit = new DatabaseInit();
-        dbInit.Initialization(dbContext);
+
+        //dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
         using (Task task = dbInit.EnsureRoleCreated(roleManager))
@@ -87,6 +90,12 @@ using (var scope = app.Services.CreateScope())
         {
             task.Wait();
         }
+
+        using (Task task = dbInit.EnsureClientCreated(userManager))
+        {
+            task.Wait();
+        }
+        dbInit.Initialization(dbContext);
     }
 }
 

@@ -20,6 +20,10 @@ namespace BlogicProject.Models.Entity
         [Required]
         public DateTime ExpiredDate { get; set; }
 
+        [ForeignKey(nameof(Institution))]
+        public int InstitutionId { get; set; }
+        public Institution Institution { get; set; }
+
         [ForeignKey(nameof(User))]
         public int ManagerID { get; set; }
         public User Manager { get; set; }

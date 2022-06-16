@@ -54,6 +54,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="Index">All Users</a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Register">New User</a>
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -74,6 +77,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link text-light" asp-area="Adviser" asp-controller="Contracts" asp-action="ParticipatingContracts">Participating Contracts</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Register">New Client</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -100,7 +106,7 @@
                         @if (User.Identity.IsAuthenticated == false)
                         {
                             <ul class="navbar-nav navbar-right">
-                                <li class="nav-item"><a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Register"><span class="glyphicon"></span> Sign Up</a></li>
+                                @*<li class="nav-item"><a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Register"><span class="glyphicon"></span> Sign Up</a></li>*@
                                 <li class="nav-item"><a class="nav-link text-light" asp-area="Security" asp-controller="Account" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                             </ul>
                         }
@@ -128,7 +134,7 @@
 
     <footer class="border-top noparallax-footer footer text-muted bg-dark border-bottom box-shadow">
         <div class="container">
-            &copy; 2022 - Blogic Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year.ToString() - Blogic Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>

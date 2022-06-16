@@ -39,26 +39,18 @@ namespace BlogicProjectAreas.Security.Controllers
 
 
             if (ModelState.IsValid && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+            {
+                if (User.IsInRole(Roles.Adviser.ToString()) && !User.IsInRole(Roles.Admin.ToString()) && registerVM.Role != Roles.Client)
                 {
+                    registerVM.Role = Roles.Client;
+                }
                 string[] errors = await security.Register(registerVM, registerVM.Role);
 
                 if (errors == null)
                 {
-                    return RedirectToAction(nameof(HomeController.Index), 
-                                            nameof(HomeController).Replace("Controller", String.Empty), 
+                    return RedirectToAction(nameof(HomeController.Index),
+                                            nameof(HomeController).Replace("Controller", String.Empty),
                                             new { area = String.Empty });
-                    
-                    //LoginViewModel loginVM = new LoginViewModel
-                    //{
-                    //    Username = registerVM.Username,
-                    //    Password = registerVM.Password
-                    //};
-                    //bool isLogged = await security.Login(loginVM);
-                    //if (isLogged)
-                    //    return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).Replace("Controller", String.Empty), new { area = String.Empty });
-                    //else
-                    //    return RedirectToAction(nameof(Login));
-
                 }
                 foreach (var error in errors)
                 {

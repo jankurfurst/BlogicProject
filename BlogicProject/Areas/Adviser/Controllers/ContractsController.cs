@@ -99,7 +99,6 @@ namespace BlogicProject.Areas.Adviser.Controllers
             return View(contract);
         }
 
-        // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,9 +114,6 @@ namespace BlogicProject.Areas.Adviser.Controllers
             return View(user);
         }
 
-        // POST: Admin/Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RegistrationNumber,InstitutionId,ConclusionDate,EfectiveDate,ExpiredDate,ManagerID,ClientID")] Contract contract)

@@ -1,0 +1,20 @@
+﻿@model Contract
+
+@{
+    <tr>
+        <th class="col-sm-1">@nameof(Contract.RegistrationNumber)</th>
+        <th class="col-sm-1">@nameof(Contract.ConclusionDate)</th>
+        <th class="col-sm-1">@nameof(Contract.EfectiveDate)</th>
+        <th class="col-sm-1">@nameof(Contract.ExpiredDate)</th>
+        <th class="col-sm-1">@nameof(Institution)</th>
+        @if (ViewBag.User != "Client")
+        {
+            <th class="col-sm-1">Clients Name</th>
+        }
+        <th class="col-sm-1">Manager Name</th>
+        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+        {
+            <th class="col-sm-2">Action</th>
+        }
+    </tr>
+}

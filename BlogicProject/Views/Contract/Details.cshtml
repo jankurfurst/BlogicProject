@@ -1,0 +1,15 @@
+﻿@model Contract;
+
+@{
+    ViewData["Title"] = $"Contract: {Model.RegistrationNumber}";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<br />
+@{
+    ViewBag.View = "Contract";
+}
+<partial name="ContractDetailTable" model="Model">

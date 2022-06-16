@@ -1,0 +1,20 @@
+﻿@model UserSimpleDetailViewModel;
+
+@{
+
+    <tr>
+        <th class="col-sm-2">Full Name</th>
+        <th class="col-sm-2">Email</th>
+        <th class="col-sm-2">Phone Number</th>
+        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+        {
+            <th class="col-sm-2">Personal Id. number</th>
+            <th class="col-sm-1">Age</th>
+            <th class="col-sm-1">Roles</th>
+        }
+        @if (ViewBag.View == "UserList")
+        {
+            <th class="col-sm-1"></th>
+        }
+    </tr>
+}

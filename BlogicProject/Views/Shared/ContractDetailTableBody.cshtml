@@ -1,0 +1,31 @@
+﻿@model Contract;
+
+@{
+    <tr>
+        <td class="col-sm-1">@Model.RegistrationNumber</td>
+        <td class="col-sm-1">@Model.ConclusionDate.ToString("dd.MM.yyyy")</td>
+        <td class="col-sm-1">@Model.EfectiveDate.ToString("dd.MM.yyyy")</td>
+        <td class="col-sm-1">@Model.ExpiredDate.ToString("dd.MM.yyyy")</td>
+        <td class="col-sm-1">@Model.Institution.Name</td>
+        @if (ViewBag.User != "Client")
+        {
+            <td class="col-sm-1"><a asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@Model.Client.Id">@(Model.Client.FirstName + " " + Model.Client.LastName)</a></td>
+        }
+
+        <td class="col-sm-1"><a asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@Model.Manager.Id">@(Model.Manager.FirstName + " " + Model.Manager.LastName)</a></td>
+
+        <th class="col-sm-2">
+            @if (ViewBag.View == "ContractList")
+            {
+                <a asp-area="" asp-controller="Contract" asp-action="Details" asp-route-id="@Model.RegistrationNumber"> Detail </a>
+            }
+            @if (ViewBag.View == "Contract" && User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.RegistrationNumber"> Edit </a>
+
+                <a asp-action="Delete" asp-route-id="@Model.RegistrationNumber"> Delete </a>
+            }
+
+        </th>
+    </tr>
+}

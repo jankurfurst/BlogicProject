@@ -1,0 +1,13 @@
+﻿@model UserSimpleDetailViewModel;
+
+@{
+    if (Model != null)
+    {
+        <table style="width:100%" class="table table-responsive table-striped table-bordered">
+            <partial name="UserDetailTableHeader" model="Model"></partial>
+            <partial name="UserDetailTableBody" model="Model"></partial>
+        </table>
+        <partial name="UserInfo" model="Model"></partial>
+
+    }
+}

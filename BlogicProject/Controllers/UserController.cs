@@ -42,6 +42,7 @@ namespace BlogicProject.Controllers
             var contractsManager = _context.Contracts.Where(c => c.Manager == user).ToList();
             var participates = _context.Participatings.Where(p => p.UserID == user.Id).ToList();
             var roles = _userManager.GetRolesAsync(user).Result.ToList();
+            
 
             UserSimpleDetailViewModel viewModel = new()
             {

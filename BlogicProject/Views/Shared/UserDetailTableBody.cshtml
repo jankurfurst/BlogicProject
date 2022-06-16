@@ -1,0 +1,19 @@
+﻿@model UserSimpleDetailViewModel;
+
+@{
+    <tr>
+        <td class="col-sm-2">@(Model.User.FirstName + " " + Model.User.LastName)</td>
+        <td class="col-sm-2">@Model.User.Email</td>
+        <td class="col-sm-2">@Model.User.PhoneNumber</td>
+        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
+        {
+            <td class="col-sm-2">@Model.User.PI_Number</td>
+            <td class="col-sm-1">@Model.User.Age</td>
+            <td class="col-sm-1">@string.Join(", ", Model.UserRoles)</td>
+        }
+        @if (ViewBag.View == "UserList")
+        {
+            <th class="col-sm-1"><a asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@Model.User.Id">Detail</a></th>
+        }
+    </tr>
+}

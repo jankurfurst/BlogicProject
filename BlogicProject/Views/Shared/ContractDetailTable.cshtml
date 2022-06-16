@@ -1,0 +1,13 @@
+﻿@model Contract;
+
+@{
+    if (Model != null)
+    {
+        <table style="width:100%" class="table table-responsive table-striped table-bordered">
+            <partial name="ContractDetailTableHeader" model="Model"></partial>
+            <partial name="ContractDetailTableBody" model="Model"></partial>
+        </table>
+        <partial name="ContractInfo" model="Model"></partial>
+
+    }
+}

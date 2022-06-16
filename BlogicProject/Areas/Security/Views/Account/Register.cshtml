@@ -27,13 +27,13 @@
             <input asp-for="Password" type="password" id="user-pass" class="form-control" placeholder="Password" autofocus="">
             <input asp-for="RepeatedPassword" type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" autofocus="">
             <br />
-            <input asp-for="Role" type="radio" id="user-role" class="form-select" checked="true" value="2" autofocus=""> <b>Client</b>
-
             @if (@User.IsInRole(Roles.Admin.ToString()))
             {
-                <input asp-for="Role" type="radio" id="user-role" class="form-select" checked="false" value="1" autofocus=""> <b>Adviser</b>
                 <input asp-for="Role" type="radio" id="user-role" class="form-select" checked="false" value="0" autofocus=""> <b>Admin</b>
+                <input asp-for="Role" type="radio" id="user-role" class="form-select" checked="false" value="1" autofocus=""> <b>Adviser</b>
             }
+            <input asp-for="Role" type="radio" id="user-role" class="form-select" checked="true" value="2" autofocus=""> <b>Client</b>
+
             <br />
 
             <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Create new user</button>

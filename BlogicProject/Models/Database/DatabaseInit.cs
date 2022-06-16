@@ -51,8 +51,31 @@ namespace BlogicProject.Models.Database
                 ClientID = 3,
                 InstitutionId = 1
             };
-
             contracts.Add(c1);
+            
+            Contract c2 = new Contract()
+            {
+                ConclusionDate = DateTime.Now,
+                EfectiveDate = DateTime.Now,
+                ExpiredDate = DateTime.Now.AddYears(5),
+                ManagerID = 1,
+                ClientID = 3,
+                InstitutionId = 1
+            };
+            contracts.Add(c2);
+            
+            Contract c3 = new Contract()
+            {
+                ConclusionDate = DateTime.Now,
+                EfectiveDate = DateTime.Now,
+                ExpiredDate = DateTime.Now.AddYears(5),
+                ManagerID = 1,
+                ClientID = 2,
+                InstitutionId = 1
+            };
+            contracts.Add(c3);
+
+
             return contracts;
         }
 

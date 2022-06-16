@@ -1,6 +1,8 @@
 ﻿using BlogicProject.Models.Database;
 using BlogicProject.Models.Identity;
+using BlogicProject.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +12,12 @@ namespace BlogicProject.Areas.Admin.Controllers
     [Authorize(Roles = nameof(Roles.Admin))]
     public class UsersController : Controller
     {
+        private readonly UserManager<User> _userManager;
         private readonly AppDbContext _context;
 
-        public UsersController(AppDbContext context)
+        public UsersController(UserManager<User> usermanager, AppDbContext context)
         {
+            _userManager = usermanager;
             _context = context;
         }
 
@@ -21,6 +25,51 @@ namespace BlogicProject.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
+        }
+        
+
+        public async Task<IActionResult> UserListRole(Roles? role)
+        {
+            if (role == null) return NotFound();
+
+            var users = await _context.Users.Include(c => c.ParticipatesIn)
+                                            .ThenInclude(pi => pi.Contract)
+                                            .ToListAsync();
+            IList<User> clients = new List<User>();
+            foreach(var user in users)
+            {
+                if (_userManager.IsInRoleAsync(user, role.ToString()).Result)
+                {
+                    clients.Add(user);
+                }
+            }
+
+            List<UserSimpleDetailViewModel> vms = new();
+            foreach (var client in clients)
+            {
+                if (client == null)
+                {
+                    return NotFound();
+                }
+
+                var contractsClient = _context.Contracts.Where(c => c.Client == client).ToList();
+                var contractsManager = _context.Contracts.Where(c => c.Manager == client).ToList();
+                var participates = _context.Participatings.Where(p => p.UserID == client.Id).ToList();
+                var roles = _userManager.GetRolesAsync(client).Result.ToList();
+
+
+                UserSimpleDetailViewModel viewModel = new()
+                {
+                    User = client,
+                    UserRoles = roles,
+                    ContractsClient = contractsClient,
+                    ContractsManager = contractsManager,
+                    Participatings = client.ParticipatesIn
+                };
+                vms.Add(viewModel);
+            }
+            ViewBag.ForRole = role.ToString();
+            return View(vms);
         }
 
         // GET: Admin/Users/Details/5

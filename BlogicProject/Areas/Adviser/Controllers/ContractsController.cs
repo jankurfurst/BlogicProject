@@ -81,6 +81,7 @@ namespace BlogicProject.Areas.Adviser.Controllers
             return View(contract);
         }
 
+        #region Create
         public IActionResult Create()
         {
             return View();
@@ -98,7 +99,9 @@ namespace BlogicProject.Areas.Adviser.Controllers
             }
             return View(contract);
         }
+        #endregion
 
+        #region Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -144,7 +147,9 @@ namespace BlogicProject.Areas.Adviser.Controllers
             }
             return View(contract);
         }
+        #endregion
 
+        #region Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,6 +176,7 @@ namespace BlogicProject.Areas.Adviser.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
         private bool ContractExist(int id)
         {

@@ -3,29 +3,36 @@
 @{
     <details>
         <summary>Participating</summary>
-        <div id="participates_in_@Model.RegistrationNumber">
-            <h4>Participating</h4>
-            <table style="width:41.667%" class="table table-responsive table-bordered">
-                <tr>
-                    <th class="col-sm-3">Adviser Name</th>
-                    <th class="col-sm-1">Email</th>
-                    <th class="col-sm-1">Phone Number</th>
-                    <th class="col-sm-2"></th>
-                </tr>
+        @if (Model.ParticipatesIn.Count() > 0)
+        {
+            <div id="participates_in_@Model.RegistrationNumber">
+                <h4>Participating</h4>
+                <table style="width:41.667%" class="table table-responsive table-bordered">
+                    <tr>
+                        <th class="col-sm-3">Adviser Name</th>
+                        <th class="col-sm-1">Email</th>
+                        <th class="col-sm-1">Phone Number</th>
+                        <th class="col-sm-2"></th>
+                    </tr>
 
-                @{
-                    foreach (var participatesIn in Model.ParticipatesIn)
-                    {
-                        <tr>
-                            <td class="col-sm-3">@(participatesIn.User.FirstName + " " + participatesIn.User.LastName)</td>
-                            <td class="col-sm-1">@participatesIn.User.Email</td>
-                            <td class="col-sm-1">@participatesIn.User.PhoneNumber</td>
-                            <td class="col-sm-2"><a asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@participatesIn.User.Id">Detail</a></td>
-                        </tr>
+                    @{
+                        foreach (var participatesIn in Model.ParticipatesIn)
+                        {
+                            <tr>
+                                <td class="col-sm-3">@(participatesIn.User.FirstName + " " + participatesIn.User.LastName)</td>
+                                <td class="col-sm-1">@participatesIn.User.Email</td>
+                                <td class="col-sm-1">@participatesIn.User.PhoneNumber</td>
+                                <td class="col-sm-2"><a asp-area="" asp-controller="User" asp-action="Details" asp-route-id="@participatesIn.User.Id">Detail</a></td>
+                            </tr>
+                        }
                     }
-                }
-            </table>
-        </div>
+                </table>
+            </div>
+        }
+        else
+        {
+            <h5>No Participatings</h5>
+        }
     </details>
     <br />
     <br />

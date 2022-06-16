@@ -46,10 +46,16 @@
                                     <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">Admin</a>
                                     <ul class="dropdown-menu dropdown-menu-dark">
                                         <li class="nav-item">
-                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Clients" asp-action="Index">All Clients</a>
+                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="UserListRole" asp-route-role="@Roles.Client">All Clients</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Contracts" asp-action="Index">All Contracts</a>
+                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="UserListRole" asp-route-role="@Roles.Adviser">All Advisers</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="UserListRole" asp-route-role="@Roles.Admin">All Admins</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Contracts" asp-action="ContractList">All Contracts</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link text-light" asp-area="Admin" asp-controller="Users" asp-action="Index">All Users</a>

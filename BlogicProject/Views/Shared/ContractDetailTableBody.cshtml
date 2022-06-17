@@ -21,9 +21,9 @@
             }
             @if (ViewBag.View == "Contract" && User.Identity.IsAuthenticated == true && (User.IsInRole(Roles.Adviser.ToString()) || User.IsInRole(Roles.Admin.ToString())))
             {
-                <a asp-action="Edit" asp-route-id="@Model.RegistrationNumber"> Edit </a>
+                <a asp-action="Edit" asp-area="Adviser" asp-controller="Contracts" asp-route-id="@Model.RegistrationNumber"> Edit </a>
 
-                <a asp-action="Delete" asp-route-id="@Model.RegistrationNumber"> Delete </a>
+                <a asp-action="Delete" asp-area="Adviser" asp-controller="Contracts" asp-route-id="@Model.RegistrationNumber"> Delete </a>
             }
 
         </th>

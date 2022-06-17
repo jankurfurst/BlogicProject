@@ -1,0 +1,106 @@
+﻿@model ContractViewModel
+
+@{
+    ParticipantsViewModel participants = ViewBag.Partic;
+}
+
+@if (ViewBag.Action != null)
+{
+    <form asp-action="@ViewBag.Action" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @{
+            if (ViewBag.Action == nameof(ContractsController.Edit))
+            {
+                <input asp-for="RegistrationNumber" type="hidden">
+                <label asp-for="ManagerId">Manager</label>
+                <select asp-for="ManagerId" name="ManagerId" value="@ViewBag.ManagerId">
+                    @foreach (var manager in participants.Managers)
+                    {
+                        var name = $"{manager.FirstName} {manager.LastName}: {manager.Email}";
+                        <option value="@manager.Id">@name</option>
+                    }
+                </select>
+                <span asp-validation-for="ManagerId" class="text-danger"></span>
+            }
+            else
+            {
+                <input asp-for="ManagerId" type="hidden" value="@ViewBag.ManagerId">
+            }
+        }
+
+
+
+        <div class="form-group">
+            <label asp-for="ConclusionDate">Conclusion Date</label>
+            <input asp-for="ConclusionDate" type="date" textmode="Date" style="width: 110px;" name="ConclusionDate" id="ConclusionDate" class="hasDatepicker" />
+            <span asp-validation-for="ConclusionDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EfectiveDate">Efective Date</label>
+            <input asp-for="EfectiveDate" type="date" textmode="Date" style="width: 110px;" name="EfectiveDate" id="EfectiveDate" class="hasDatepicker" />
+            <span asp-validation-for="EfectiveDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpiredDate">Expired Date</label>
+            <input asp-for="ExpiredDate" type="date" textmode="Date" style="width: 110px;" name="ExpiredDate" id="ExpiredDate" class="hasDatepicker" />
+            <span asp-validation-for="ExpiredDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ClientId">Client</label>
+            <select asp-for="ClientId" id="ClientId" name="ClientId">
+                @foreach (var client in participants.Clients)
+                {
+                    var name = $"{client.FirstName} {client.LastName}: {client.Email}";
+
+                    <option value="@client.Id">@name</option>
+                }
+            </select>
+            <span asp-validation-for="ClientId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InstitutionId">Instituce</label>
+            <select asp-for="InstitutionId" id="InstitutionId" name="InstitutionId">
+                @foreach (var institution in participants.Institutions)
+                {
+                    var name = $"{institution.Name}";
+                    <option value="@institution.ID">@name</option>
+                }
+            </select>
+            <span asp-validation-for="InstitutionId" class="text-danger"></span>
+        </div>
+
+        @if (ViewBag.Action == nameof(ContractsController.Create))
+        {
+
+            <div class="form-group">
+                <label asp-for="ParticipatingAdvisers">Participating Advisers</label>
+                <select multiple asp-for="ParticipatingAdvisers" id="ParticipatingAdvisers" name="ParticipatingAdvisers">
+                    <option selected="selected" value="0">None</option>
+                    @foreach (var adviser in participants.Advisers)
+                    {
+                        var name = $"{adviser.FirstName} {adviser.LastName}: {adviser.Email}";
+                        if (ViewBag.Action == nameof(ContractsController.Edit) && Model.ParticipatingAdvisers != null)
+                        {
+                            if (Model.ParticipatingAdvisers.Contains(adviser.Id))
+                            {
+                                <option selected="selected" value="@adviser.Id">@name</option>
+                            }
+
+                        }
+                        else
+                        {
+                            <option value="@adviser.Id">@name</option>
+                        }
+                    }
+                </select>
+            </div>
+        }
+        else
+        {
+            <input asp-for="ParticipatingAdvisers" value="0" type="hidden">
+        }
+        <br />
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+}

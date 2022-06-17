@@ -1,0 +1,19 @@
+﻿@model ContractViewModel
+@{
+    ViewData["Title"] = "Create Contract";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>This page creates Contract.</p>
+
+@{    
+    ViewBag.Action = nameof(ContractsController.Create);
+}
+<partial name="CreateEditForm" model="Model">
+
+@section Scripts 
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/FileContentTypeValidation.js"></script>
+}

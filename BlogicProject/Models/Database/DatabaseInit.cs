@@ -131,6 +131,7 @@ namespace BlogicProject.Models.Database
                 Email = "admin@admin.cz",
                 EmailConfirmed = true,
                 PI_Number = "9912126633",
+                Age = 22,
                 FirstName = "Tom",
                 LastName = "Správce",
                 PhoneNumber = "123456789"
@@ -171,6 +172,7 @@ namespace BlogicProject.Models.Database
                 Email = "manager@manager.cz",
                 EmailConfirmed = true,
                 PI_Number = "9912126637",
+                Age = 22,
                 FirstName = "Alex",
                 LastName = "Manažer",
                 PhoneNumber = "987654321"
@@ -212,6 +214,7 @@ namespace BlogicProject.Models.Database
                 Email = "klient@klient.cz",
                 EmailConfirmed = true,
                 PI_Number = "9912126638",
+                Age = 22,
                 FirstName = "Franta",
                 LastName = "Klient",
                 PhoneNumber = "456123789"

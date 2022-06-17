@@ -66,7 +66,7 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    if (scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>().IsDevelopment())
+    if (app.Environment.IsDevelopment())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         DatabaseInit dbInit = new DatabaseInit();

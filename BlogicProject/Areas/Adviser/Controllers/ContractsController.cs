@@ -172,9 +172,9 @@ namespace BlogicProject.Areas.Adviser.Controllers
                 ConclusionDate = contract.ConclusionDate,
                 EfectiveDate = contract.EfectiveDate,
                 ExpiredDate = contract.ExpiredDate,
-                ManagerId = contract.ManagerID,
-                ClientId = contract.ClientID,
-                InstitutionId = contract.InstitutionId
+                ManagerId = (int)contract.ManagerID,
+                ClientId = (int)contract.ClientID,
+                InstitutionId = (int)contract.InstitutionId
             };
 
             ParticipantsViewModel vm = await FindParticipantsAsync();

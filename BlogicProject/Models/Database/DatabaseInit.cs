@@ -101,8 +101,13 @@ namespace BlogicProject.Models.Database
             {
                 Name = "Axa",
             };
+            Institution i2 = new()
+            {
+                Name = "ČSOB",
+            };
 
             institutions.Add(i);
+            institutions.Add(i2);
             return institutions;
         }
 

@@ -15,8 +15,8 @@ builder.Logging.AddDebug();
 builder.Services.AddControllersWithViews();
 var Configuration = builder.Configuration;
 
-//builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("database")));
-builder.Services.AddDbContextPool<AppDbContext>(options => options.UseMySql(Configuration.GetConnectionString("mysql"), new MySqlServerVersion("8.0.26")));
+builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("database")));
+//builder.Services.AddDbContextPool<AppDbContext>(options => options.UseMySql(Configuration.GetConnectionString("mysql"), new MySqlServerVersion("8.0.26")));
 
 builder.Services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<AppDbContext>()
@@ -70,7 +70,6 @@ using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         DatabaseInit dbInit = new DatabaseInit();
-
         //dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
 

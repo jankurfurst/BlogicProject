@@ -21,15 +21,15 @@ namespace BlogicProject.Models.Entity
         public DateTime ExpiredDate { get; set; }
 
         [ForeignKey(nameof(Institution))]
-        public int InstitutionId { get; set; }
+        public int? InstitutionId { get; set; }
         public Institution Institution { get; set; }
 
         [ForeignKey(nameof(User))]
-        public int ManagerID { get; set; }
+        public int? ManagerID { get; set; }
         public User Manager { get; set; }
 
         [ForeignKey(nameof(User))]
-        public int ClientID { get; set; }
+        public int? ClientID { get; set; }
         public User Client { get; set; }
 
         public IList<Participating> ParticipatesIn { get; set; }

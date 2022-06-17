@@ -28,8 +28,7 @@ namespace BlogicProject.Models.Database
                 .HasOne(u => u.User)
                 .WithMany(pi => pi.ParticipatesIn)
                 .HasForeignKey(ui => ui.UserID);
-
-
+            
             foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
                 entity.SetTableName(entity.GetTableName().Replace("AspNet", String.Empty));
